@@ -1,0 +1,9 @@
+Script based on the CVE 2018-15473
+How this script works ? 
+
+A: First it estabilishes an encrypted connection with the OpenSSH Server then sends a malformed packeage(SSH2_MSG_USERAUTH_REQUEST), the script analyze the anwser, discovering if the username exists or not by the messeage receved by the server, if there's no anwser, then the user exists. Otherwise, it will send a messeage of invalid user.
+
+Why this happens?
+A: You can read about it on this article: https://blog.nviso.be/2018/08/21/openssh-user-enumeration-vulnerability-a-close-look/
+where you'll find a detailed explanation about the case.
+

